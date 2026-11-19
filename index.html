@@ -1,0 +1,1072 @@
+<title>浮島奇兵 KOL 合作</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout concept: a deep-sea hero with a floating island, then a calm chart-paper page.
+   One bold moment (island + cannon shot toward the 50% coin); everything else stays quiet. */
+:root {
+  --bg: #F1F6F5;
+  --surface: #FFFFFF;
+  --ink: #0C2B3A;
+  --muted: #4A6572;
+  --line: #CBDCDC;
+  --sea: #0E6A87;
+  --sea-soft: #DDEEF0;
+  --signal: #FF6B47;
+  --signal-ink: #2A0F06;
+  --warn: #B3361B;
+  --ok: #16744F;
+  --hero-a: #123B98;
+  --hero-b: #1673DC;
+  --hero-ink: #F2F8FF;
+  --hero-muted: #D3E6FA;
+  --brass: #F2B84B;
+  --font-body: "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Bricolage Grotesque", var(--font-body);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #071A25;
+    --surface: #0C2938;
+    --ink: #E4F2F0;
+    --muted: #9BB8C0;
+    --line: #1A4155;
+    --sea: #6CCBE0;
+    --sea-soft: #0F3447;
+    --signal: #FF7A59;
+    --warn: #FF8F73;
+    --ok: #6FD6A6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #071A25;
+  --surface: #0C2938;
+  --ink: #E4F2F0;
+  --muted: #9BB8C0;
+  --line: #1A4155;
+  --sea: #6CCBE0;
+  --sea-soft: #0F3447;
+  --signal: #FF7A59;
+  --warn: #FF8F73;
+  --ok: #6FD6A6;
+  color-scheme: dark;
+}
+:root[data-lang="ja"] { --font-body: "Noto Sans JP", "Noto Sans TC", "Noto Sans KR", system-ui, sans-serif; }
+:root[data-lang="ko"] { --font-body: "Noto Sans KR", "Noto Sans TC", "Noto Sans JP", system-ui, sans-serif; }
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+}
+h1, h2, h3, p, ol, ul { margin: 0; }
+a { color: inherit; }
+.wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- hero ---------- */
+.hero {
+  background: linear-gradient(170deg, var(--hero-b) 0%, #1B55C4 55%, var(--hero-a) 100%);
+  color: var(--hero-ink);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before, .band::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: url("assets/hero-pattern.webp") center top / cover no-repeat; opacity: .2;
+}
+.hero > .wrap { position: relative; z-index: 1; }
+.topbar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px; padding-block: 18px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand img { width: 40px; height: 40px; border-radius: 10px; display: block; }
+.brand b { font-weight: 900; font-size: 18px; letter-spacing: .02em; }
+.brand span { font-family: var(--font-display); font-size: 13px; color: var(--hero-muted); letter-spacing: .08em; text-transform: uppercase; }
+.lang { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.1); }
+.lang button {
+  font: inherit; font-size: 13px; font-weight: 700; line-height: 1;
+  min-height: 34px; padding: 0 12px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--hero-ink); cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--hero-ink); color: var(--hero-a); }
+.lang button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .link:focus-visible {
+  outline: 3px solid var(--brass); outline-offset: 2px;
+}
+.hero-grid { display: grid; gap: 28px; padding-block: 20px 72px; }
+.eyebrow {
+  font-family: var(--font-display); font-size: 17px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--sea);
+}
+.hero .eyebrow { color: var(--brass); }
+h1 {
+  font-size: clamp(30px, 8vw, 54px); line-height: 1.18; font-weight: 900;
+  text-wrap: balance; margin-top: 10px;
+}
+.lead { margin-top: 16px; color: var(--hero-muted); max-width: 34em; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 50px; padding: 0 24px; border-radius: 12px;
+  font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; border: 0;
+}
+.btn-primary { background: var(--signal); color: var(--signal-ink); }
+.btn-ghost { border: 1.5px solid var(--hero-muted); color: var(--hero-ink); background: transparent; }
+.btn-line { border: 1.5px solid var(--line); background: transparent; color: var(--ink); }
+.logo { display: block; width: min(300px, 78%); aspect-ratio: 7 / 5; object-fit: contain; object-position: left center; margin-bottom: 10px; filter: drop-shadow(0 8px 18px rgba(5, 22, 70, .35)); }
+.art { width: 100%; max-width: 360px; margin: 0 auto; border-radius: 22px; overflow: hidden; line-height: 0; border: 3px solid rgba(255, 255, 255, .6); box-shadow: 0 18px 40px rgba(5, 22, 70, .45); }
+.art img { display: block; width: 100%; height: auto; }
+.island { animation: bob 5s ease-in-out infinite; transform-origin: 180px 160px; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.stat { display: flex; align-items: center; gap: 14px; justify-content: center; }
+.stat { margin-top: 18px; }
+.stat strong { font-family: var(--font-display); font-weight: 800; font-size: 76px; line-height: 1; color: var(--brass); text-shadow: 0 4px 14px rgba(5, 22, 70, .4); }
+.stat span { max-width: 13em; font-size: 14px; color: var(--hero-muted); line-height: 1.5; }
+.wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 44px; display: block; }
+.wave path { fill: var(--bg); }
+
+/* ---------- sections ---------- */
+.section { padding-block: 56px; }
+.section + .section { padding-top: 8px; }
+h2 { font-size: clamp(24px, 5.6vw, 36px); line-height: 1.3; font-weight: 900; margin-top: 8px; text-wrap: balance; }
+.sec-lead { color: var(--muted); margin-top: 12px; max-width: 38em; }
+
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; min-width: 0; }
+.fact.wide { grid-column: 1 / -1; }
+.fact small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+.fact .v { font-family: var(--font-display); font-weight: 800; font-size: 40px; line-height: 1.15; margin-top: 4px; }
+.fact .v.text { font-family: var(--font-body); font-size: 18px; font-weight: 700; line-height: 1.5; }
+.split { display: flex; margin-top: 20px; border-radius: 12px; overflow: hidden; font-family: var(--font-display); font-weight: 800; font-size: 18px; }
+.split > div { padding: 14px 16px; min-width: 0; }
+.split .you { flex: 1 1 50%; background: var(--signal); color: var(--signal-ink); }
+.split .rest { flex: 1 1 50%; background: var(--sea-soft); color: var(--sea); text-align: right; }
+.split-cap { margin-top: 10px; color: var(--muted); font-size: 14px; }
+
+.steps { list-style: none; padding: 0; margin-top: 32px; display: grid; gap: 0; counter-reset: s; }
+.steps li { position: relative; padding: 0 0 28px 56px; min-width: 0; }
+.steps li:last-child { padding-bottom: 0; }
+.steps li::before {
+  counter-increment: s; content: counter(s);
+  position: absolute; left: 0; top: 0; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--sea); color: var(--surface);
+  display: grid; place-items: center; font-family: var(--font-display); font-weight: 800;
+}
+.steps li:not(:last-child)::after {
+  content: ""; position: absolute; left: 18px; top: 44px; bottom: 6px; width: 2px; background: var(--line);
+}
+.steps h3, .feat h3 { font-size: 18px; font-weight: 700; line-height: 1.4; }
+.steps p, .feat p { color: var(--muted); margin-top: 4px; }
+
+.elig { display: grid; gap: 24px; margin-top: 28px; }
+.big { font-family: var(--font-display); font-weight: 800; font-size: clamp(52px, 14vw, 88px); line-height: 1; color: var(--sea); }
+.big-cap { font-size: clamp(22px, 5vw, 28px); font-weight: 900; line-height: 1.3; margin-top: 8px; }
+.big-note { color: var(--muted); margin-top: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip { padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); font-weight: 700; font-size: 14px; }
+.elig h3 { font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+
+.feats { display: grid; gap: 22px; margin-top: 28px; }
+.feat { border-top: 3px solid var(--sea); padding-top: 14px; min-width: 0; }
+.tags { margin-top: 24px; font-weight: 700; color: var(--sea); }
+.link { display: inline-block; margin-top: 12px; font-weight: 700; color: var(--sea); text-underline-offset: 4px; }
+
+/* ---------- game band ---------- */
+.section.band { position: relative; margin-top: 32px; margin-bottom: 24px; padding-block: 64px 0; color: var(--hero-ink); background: linear-gradient(175deg, #1B55C4 0%, var(--hero-a) 100%); overflow: hidden; }
+.band .wrap { position: relative; z-index: 1; }
+.band .eyebrow { color: var(--brass); }
+.band .sec-lead, .band .feat p { color: var(--hero-muted); }
+.band .feat { border-top-color: var(--brass); }
+.band .tags { color: var(--brass); }
+.band .tags { text-align: center; }
+.game-btn { display: flex; width: fit-content; margin-inline: auto; margin-top: 20px; box-shadow: 0 6px 0 rgba(5, 22, 70, .35); }
+.shots { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 28px 0 8px; padding: 4px 2px 18px; -webkit-overflow-scrolling: touch; }
+.shots figure { flex: 0 0 62%; max-width: 240px; scroll-snap-align: center; margin: 0; min-width: 0; }
+.phone { border-radius: 22px; padding: 6px; background: #0A1B45; border: 2px solid rgba(255, 255, 255, .45); box-shadow: 0 14px 30px rgba(5, 22, 70, .5); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 16px; aspect-ratio: 9 / 16; object-fit: cover; object-position: top; }
+.shots figcaption { margin-top: 12px; display: grid; gap: 2px; font-size: 14px; line-height: 1.5; color: var(--hero-muted); }
+.shots figcaption b { color: var(--brass); font-size: 16px; }
+.shots figure:nth-child(even) { margin-top: 18px; }
+@media (min-width: 800px) { .shots { overflow: visible; justify-content: center; gap: 22px; } .shots figure { flex: 1 1 0; max-width: 220px; } }
+.crew { display: flex; justify-content: center; align-items: flex-end; gap: 0; max-width: 700px; margin: 36px auto 0; }
+.crew img { width: 25%; max-width: 175px; height: auto; display: block; }
+
+/* ---------- form ---------- */
+.form-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 18px; margin-top: 24px; }
+.field { display: grid; gap: 6px; margin-bottom: 18px; min-width: 0; }
+label { font-weight: 700; font-size: 15px; }
+input, select, textarea {
+  width: 100%; min-width: 0; font: inherit; font-size: 16px; color: var(--ink);
+  background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px;
+}
+input, select { min-height: 48px; }
+textarea { min-height: 112px; resize: vertical; line-height: 1.5; }
+input::placeholder, textarea::placeholder { color: var(--muted); opacity: .8; }
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--warn); }
+.err { color: var(--warn); font-size: 14px; font-weight: 500; }
+.hint { color: var(--muted); font-size: 14px; }
+.status { font-size: 14px; font-weight: 700; min-height: 1.5em; }
+.status.ok { color: var(--ok); }
+.status.low { color: var(--warn); }
+.form-card .btn { width: 100%; }
+.plats { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+.plats legend { padding: 0; font-weight: 700; font-size: 15px; }
+.plats .hint { margin: 4px 0 12px; }
+.plat-list { display: grid; gap: 12px; }
+.plat-head, .plat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .8fr); gap: 8px; }
+.plat-head { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.plat-name { grid-column: 1 / -1; font-size: 14px; font-weight: 700; }
+.plats .err { margin-top: 10px; }
+.total { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; font-weight: 700; }
+.total strong { font-family: var(--font-display); font-size: 28px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.ways-list { display: grid; gap: 8px; margin-top: 8px; }
+.way { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); font-weight: 500; cursor: pointer; min-width: 0; }
+.way input { flex: none; width: 20px; height: 20px; min-height: 0; padding: 0; margin: 0; accent-color: var(--sea); }
+.way:has(input:checked) { border-color: var(--sea); background: var(--sea-soft); }
+.way-other { margin-top: 10px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* ---------- earnings simulator ---------- */
+.sim { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 18px; margin-top: 24px; }
+.sim-row label { padding: 0; font-weight: 700; font-size: 15px; }
+.sim-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.sim-row output { font-family: var(--font-display); font-weight: 800; font-size: 22px; font-variant-numeric: tabular-nums; }
+.sim input[type="range"] { min-height: 40px; padding: 0; border: 0; background: transparent; accent-color: var(--sea); margin-top: 4px; }
+.sim-scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.sim-out { display: grid; gap: 22px; margin-top: 22px; }
+.sim-result { padding: 18px; border-radius: 14px; background: var(--hero-a); color: var(--hero-ink); min-width: 0; }
+.sim-cap { font-size: 13px; font-weight: 700; letter-spacing: .04em; color: var(--hero-muted); }
+.sim-big { font-family: var(--font-display); font-weight: 800; font-size: clamp(44px, 13vw, 68px); line-height: 1.05; color: var(--brass); margin-top: 4px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.sim-break { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.sim-break p { min-width: 0; }
+.sim-break span { display: block; font-size: 13px; color: var(--hero-muted); }
+.sim-break strong { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+.sim-cmp { min-width: 0; }
+.sim-sub { font-weight: 700; font-size: 15px; }
+.bars { display: grid; gap: 4px; margin-top: 8px; }
+.bar { display: grid; grid-template-columns: 96px minmax(0, 1fr) 64px; align-items: center; gap: 10px; width: 100%; padding: 8px 0; background: none; border: 0; font: inherit; font-size: 14px; color: var(--ink); text-align: left; cursor: pointer; }
+.bar:focus-visible { outline: 3px solid var(--brass); outline-offset: 2px; border-radius: 8px; }
+.bar-name { font-weight: 700; min-width: 0; line-height: 1.3; }
+.bar-track { height: 14px; border-radius: 999px; background: var(--sea-soft); overflow: hidden; }
+.bar-fill { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--sea); transition: width .35s ease; }
+.bar.on .bar-fill { background: var(--signal); }
+.bar-val { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.sim-note { color: var(--muted); font-size: 13px; margin-top: 18px; }
+.form-eyebrow { margin-top: 56px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+#res-sent { padding: 28px 0; }
+.result h3 { font-size: 22px; font-weight: 900; }
+.result p { color: var(--muted); margin-top: 8px; }
+.summary {
+  margin: 16px 0 0; padding: 14px; border-radius: 10px; background: var(--sea-soft); color: var(--ink);
+  font: 14px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre-wrap; overflow-wrap: anywhere; user-select: text;
+}
+.contact-line { margin-top: 14px; font-weight: 700; overflow-wrap: anywhere; user-select: text; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.actions .btn { width: auto; flex: 1 1 160px; }
+
+footer { position: relative; overflow: hidden; margin-top: 56px; padding-block: 48px 190px; background: linear-gradient(180deg, #1B55C4 0%, var(--hero-a) 100%); color: var(--hero-muted); font-size: 14px; text-align: center; }
+footer .wrap { position: relative; z-index: 1; }
+footer::before, footer::after { content: ""; position: absolute; bottom: 0; width: 55%; height: 170px; background-repeat: no-repeat; background-size: auto 100%; pointer-events: none; }
+footer::before { left: 0; background-image: url("assets/foot-left.webp"); background-position: left bottom; }
+footer::after { right: 0; background-image: url("assets/foot-right.webp"); background-position: right bottom; }
+
+@media (min-width: 860px) {
+  .hero-grid { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 40px; padding-block: 28px 96px; }
+  .stat { justify-content: flex-start; }
+  .facts { grid-template-columns: repeat(3, 1fr); }
+  .fact.wide { grid-column: auto; }
+  .fact .v.text { font-size: 16px; }
+  .steps { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+  .steps li { padding: 52px 0 0; }
+  .steps li:not(:last-child)::after { left: 48px; right: -14px; top: 18px; bottom: auto; width: auto; height: 2px; }
+  .elig { grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .feats { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .form-card { padding: 32px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  .ways-list { grid-template-columns: repeat(3, 1fr); }
+  .sim { padding: 32px; }
+  .sim-out { grid-template-columns: 1fr 1.2fr; gap: 32px; align-items: center; }
+  .plat-head, .plat { grid-template-columns: 110px minmax(0, 1fr) minmax(0, .6fr); }
+  .plat-head span:first-child { grid-column: 2; }
+  .plat-name { grid-column: auto; align-self: center; }
+  .form-card .btn { width: auto; min-width: 220px; }
+}
+@media (prefers-reduced-motion: reduce) { .island { animation: none; } .bar-fill { transition: none; } }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><img src="assets/icon.webp" alt="" width="40" height="40"><b data-i18n="brandName"></b></div>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="zh-TW">繁中</button>
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="ja">日本語</button>
+        <button type="button" data-lang="ko">한국어</button>
+      </div>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <img class="logo" id="hero-logo" src="assets/logo-zh-TW.webp" alt="">
+        <p class="eyebrow" data-i18n="heroEyebrow"></p>
+        <h1 data-i18n="heroTitle"></h1>
+        <p class="lead" data-i18n="heroLead"></p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#apply" id="cta-apply" data-i18n="ctaApply"></a>
+          <a class="btn btn-ghost" href="https://g123.jp/game/island" target="_blank" rel="noopener" data-game-link data-i18n="ctaGame"></a>
+        </div>
+      </div>
+      <div>
+        <div class="art"><img src="assets/hero-key.webp" alt="" width="720" height="868"></div>
+      </div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C 240 54 480 -4 720 22 S 1200 48 1440 16 V44 H0 Z"/></svg>
+</header>
+
+<main>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="rewardsEyebrow"></p>
+      <h2 data-i18n="rewardsTitle"></h2>
+      <div class="facts">
+        <div class="fact"><small data-i18n="fact1Label"></small><div class="v" data-i18n="fact1Val"></div></div>
+        <div class="fact"><small data-i18n="fact2Label"></small><div class="v" data-i18n="fact2Val"></div></div>
+        <div class="fact wide"><small data-i18n="fact3Label"></small><div class="v text" data-i18n="fact3Val"></div></div>
+      </div>
+      <div class="split" aria-hidden="true"><div class="you" data-i18n="splitYou"></div><div class="rest" data-i18n="splitRest"></div></div>
+      <p class="split-cap" data-i18n="splitCap"></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="stepsEyebrow"></p>
+      <h2 data-i18n="stepsTitle"></h2>
+      <ol class="steps">
+        <li><h3 data-i18n="s1t"></h3><p data-i18n="s1d"></p></li>
+        <li><h3 data-i18n="s2t"></h3><p data-i18n="s2d"></p></li>
+        <li><h3 data-i18n="s3t"></h3><p data-i18n="s3d"></p></li>
+        <li><h3 data-i18n="s4t"></h3><p data-i18n="s4d"></p></li>
+        <li><h3 data-i18n="s5t"></h3><p data-i18n="s5d"></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="eligEyebrow"></p>
+      <h2 data-i18n="eligTitle"></h2>
+      <div class="elig">
+        <div>
+          <div class="big">10,000+</div>
+          <p class="big-cap" data-i18n="eligCap"></p>
+          <p class="big-note" data-i18n="eligNote"></p>
+        </div>
+        <div>
+          <h3 data-i18n="eligPlatforms"></h3>
+          <div class="chips"><span class="chip">YouTube</span><span class="chip">Twitch</span><span class="chip">Instagram</span><span class="chip">TikTok</span><span class="chip">X</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="gameEyebrow"></p>
+      <h2 data-i18n="gameTitle"></h2>
+      <p class="sec-lead" data-i18n="gameLead"></p>
+      <div class="shots" role="list">
+        <figure role="listitem"><div class="phone"><img src="assets/shot-1.webp" alt="" width="360" height="643"></div><figcaption><b data-i18n="s1t"></b><span data-i18n="s1d"></span></figcaption></figure>
+        <figure role="listitem"><div class="phone"><img src="assets/shot-2.webp" alt="" width="360" height="640"></div><figcaption><b data-i18n="s2t"></b><span data-i18n="s2d"></span></figcaption></figure>
+        <figure role="listitem"><div class="phone"><img src="assets/shot-3.webp" alt="" width="360" height="640"></div><figcaption><b data-i18n="s3t"></b><span data-i18n="s3d"></span></figcaption></figure>
+        <figure role="listitem"><div class="phone"><img src="assets/shot-4.webp" alt="" width="360" height="638"></div><figcaption><b data-i18n="s4t"></b><span data-i18n="s4d"></span></figcaption></figure>
+      </div>
+      <p class="tags" data-i18n="gameTags"></p>
+      <a class="btn btn-primary game-btn" href="https://g123.jp/game/island" target="_blank" rel="noopener" data-game-link data-i18n="gameLink"></a>
+      <div class="crew" aria-hidden="true">
+        <img src="assets/char-1.webp" alt="" width="235" height="404">
+        <img src="assets/char-2.webp" alt="" width="235" height="404">
+        <img src="assets/char-3.webp" alt="" width="235" height="404">
+        <img src="assets/char-4.webp" alt="" width="235" height="404">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="apply">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="simEyebrow"></p>
+      <h2 data-i18n="simTitle"></h2>
+      <p class="sec-lead" data-i18n="simLead"></p>
+      <div class="sim">
+        <div class="sim-row">
+          <label for="sim-payers" data-i18n="simPayers"></label>
+          <output id="sim-payers-out" for="sim-payers"></output>
+        </div>
+        <input id="sim-payers" type="range" min="10" max="1000" step="10" value="100">
+        <div class="sim-scale" aria-hidden="true"><span>10</span><span>1,000</span></div>
+        <div class="sim-out">
+          <div class="sim-result">
+            <p class="sim-cap" data-i18n="simYou"></p>
+            <p class="sim-big" id="sim-earn">$0</p>
+            <div class="sim-break">
+              <p><span data-i18n="simTotal"></span><strong id="sim-total">$0</strong></p>
+              <p><span data-i18n="simShare"></span><strong id="sim-share">$0</strong></p>
+            </div>
+          </div>
+          <div class="sim-cmp">
+            <p class="sim-sub" data-i18n="simCompare"></p>
+            <div class="bars">
+              <button type="button" class="bar" data-n="50"><span class="bar-name"></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span></button>
+              <button type="button" class="bar" data-n="100"><span class="bar-name"></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span></button>
+              <button type="button" class="bar" data-n="300"><span class="bar-name"></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span></button>
+              <button type="button" class="bar" data-n="1000"><span class="bar-name"></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span></button>
+            </div>
+          </div>
+        </div>
+        <p class="sim-note" data-i18n="simNote"></p>
+      </div>
+
+      <p class="eyebrow form-eyebrow" data-i18n="formEyebrow"></p>
+      <h2 data-i18n="formTitle"></h2>
+      <p class="sec-lead" data-i18n="formLead"></p>
+
+      <div class="form-card">
+        <form id="apply-form" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="f-name" data-i18n="fName"></label>
+              <input id="f-name" type="text" autocomplete="name" data-i18n-ph="phName">
+              <p class="err" id="err-name" hidden></p>
+            </div>
+            <div class="field">
+              <label for="f-email" data-i18n="fEmail"></label>
+              <input id="f-email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com">
+              <p class="err" id="err-email" hidden></p>
+            </div>
+            <fieldset class="plats full">
+              <legend data-i18n="fPlatforms"></legend>
+              <p class="hint" data-i18n="fPlatformsHint"></p>
+              <div class="plat-head" aria-hidden="true"><span data-i18n="colId"></span><span data-i18n="colFol"></span></div>
+              <div class="plat-list">
+                <div class="plat"><label class="plat-name" for="f-id-youtube">YouTube</label><input id="f-id-youtube" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@yourid"><input id="f-fol-youtube" type="text" inputmode="numeric" maxlength="12" placeholder="12,000"></div>
+                <div class="plat"><label class="plat-name" for="f-id-twitch">Twitch</label><input id="f-id-twitch" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@yourid"><input id="f-fol-twitch" type="text" inputmode="numeric" maxlength="12" placeholder="12,000"></div>
+                <div class="plat"><label class="plat-name" for="f-id-instagram">Instagram</label><input id="f-id-instagram" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@yourid"><input id="f-fol-instagram" type="text" inputmode="numeric" maxlength="12" placeholder="12,000"></div>
+                <div class="plat"><label class="plat-name" for="f-id-tiktok">TikTok</label><input id="f-id-tiktok" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@yourid"><input id="f-fol-tiktok" type="text" inputmode="numeric" maxlength="12" placeholder="12,000"></div>
+                <div class="plat"><label class="plat-name" for="f-id-x">X</label><input id="f-id-x" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@yourid"><input id="f-fol-x" type="text" inputmode="numeric" maxlength="12" placeholder="12,000"></div>
+              </div>
+              <p class="err" id="err-plats" hidden></p>
+              <p class="total"><span data-i18n="totalLabel"></span><strong id="total-val">0</strong></p>
+              <p class="status" id="followers-status" aria-live="polite"></p>
+            </fieldset>
+            <fieldset class="plats full">
+              <legend data-i18n="fWays"></legend>
+              <div class="ways-list">
+                <label class="way"><input type="checkbox" id="w-stream"><span data-i18n="wayStream"></span></label>
+                <label class="way"><input type="checkbox" id="w-post"><span data-i18n="wayPost"></span></label>
+                <label class="way"><input type="checkbox" id="w-other"><span data-i18n="wayOther"></span></label>
+              </div>
+              <div class="way-other" id="way-other-wrap" hidden>
+                <label class="sr" for="w-other-text" data-i18n="wayOtherLabel"></label>
+                <input id="w-other-text" type="text" data-i18n-ph="wayOtherPh">
+              </div>
+              <p class="err" id="err-ways" hidden></p>
+            </fieldset>
+            <div class="field full">
+              <label for="f-start" data-i18n="fStart"></label>
+              <input id="f-start" type="date">
+              <p class="hint" data-i18n="fStartHint"></p>
+              <p class="err" id="err-start" hidden></p>
+            </div>
+          </div>
+          <div class="hp" aria-hidden="true"><label>Website <input type="text" id="f-hp" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <button type="submit" class="btn btn-primary" id="submit-btn" data-i18n="fSubmit"></button>
+        </form>
+
+        <div class="result" id="res-sent" hidden>
+          <h3 data-i18n="sentTitle"></h3>
+          <p data-i18n="sentHelp"></p>
+        </div>
+        <div class="result" id="result" hidden>
+          <p class="err" id="send-err" hidden data-i18n="sendFail"></p>
+          <h3 data-i18n="resTitle"></h3>
+          <p data-i18n="resHelp"></p>
+          <pre class="summary" id="summary" tabindex="0"></pre>
+          <p class="contact-line" id="res-contact" hidden><span data-i18n="resContact"></span>: <span id="res-contact-val"></span></p>
+          <div class="actions">
+            <button type="button" class="btn btn-primary" id="copy-btn" data-i18n="resCopy"></button>
+            <a class="btn btn-line" id="res-form" href="#" target="_blank" rel="noopener" hidden data-i18n="resForm"></a>
+            <button type="button" class="btn btn-line" id="edit-btn" data-i18n="resEdit"></button>
+          </div>
+          <p class="status" id="copy-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p data-i18n="footer"></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Set these before sharing. Leave empty to hide the matching line on the result card.
+  var CONTACT_EMAIL = "";      // campaign contact email, shown as selectable text
+  var SUBMIT_URL = "https://script.google.com/macros/s/AKfycbyJeMIyyvfO91Z73evqui1GuhvatKG_J2wKYqAd0wHyU90Y915dLEEy9pmiwwThtUl-/exec";         // Google Apps Script web app URL (…/exec). Empty = show copyable text only.
+  var EXTERNAL_FORM_URL = "";  // optional: a form link the applicant opens to send the details
+
+  var MIN_FOLLOWERS = 10000;
+  var WAY_EN = { stream: "Game streaming", post: "SNS posts" };
+
+  var T = {
+    "zh-TW": {
+      brandName: "浮島奇兵",
+      heroEyebrow: "KOL 合作計畫・為期 30 天",
+      heroTitle: "把玩家帶上浮島，拿走 50% 分潤",
+      heroLead: "《浮島奇兵》是免下載、基本免費的海洋策略遊戲。用你的專屬連結帶新玩家進來，他們前 30 天的付費金額，一半歸你。",
+      ctaApply: "立即申請", ctaGame: "看看遊戲",
+      statCap: "玩家前 30 天付費金額的分潤",
+      rewardsEyebrow: "分潤規則", rewardsTitle: "專屬連結帶來的付費，一半給你",
+      fact1Label: "活動期間", fact1Val: "30 天",
+      fact2Label: "分潤比例", fact2Val: "50%",
+      fact3Label: "計算範圍", fact3Val: "從專屬連結進入的玩家，前 30 天的付費金額",
+      splitYou: "你 50", splitRest: "其餘 50",
+      splitCap: "舉例：玩家 30 天內付費 100，你獲得 50。",
+      stepsEyebrow: "參加流程", stepsTitle: "五步開始賺分潤",
+      s1t: "提交申請", s1d: "填寫下方表單，附上你的 SNS 帳號與粉絲數。",
+      s2t: "通過審核", s2d: "所有 SNS 總粉絲數超過 1 萬人，即符合參加資格。",
+      s3t: "領取專屬連結和數據看板", s3d: "我們會提供你專屬的遊戲連結和數據看板，用來追蹤你帶來的玩家數量和分潤金額的成長。",
+      s4t: "自由曝光", s4d: "用 SNS 投稿、遊戲直播，或任何你擅長的方式，把連結分享給觀眾。",
+      s5t: "領取報酬", s5d: "活動結束後，於次月的最後一個營業日支付報酬。",
+      eligEyebrow: "參加資格", eligTitle: "所有 SNS 帳號的總粉絲數共計",
+      eligCap: "就能加入",
+      eligNote: "把各平台的粉絲數加在一起計算，不需要單一帳號達標。",
+      eligPlatforms: "適用平台",
+      gameEyebrow: "關於遊戲", gameTitle: "啟航，前往遼闊大海！",
+      gameLead: "海洋策略模擬遊戲。自由配置漂浮在海上的據點，迎擊接連來襲的海盜。",
+      shotAlt: "闖關地圖", s1t: "闖關地圖", s1d: "沿著航線，一關一關挑戰海盜", s2t: "巨獸對決", s2d: "出擊迎戰猩紅血魷等海上巨獸", s3t: "強化設施", s3d: "查看生命、攻擊與特性，持續升級", s4t: "自由佈陣", s4d: "挑選大砲與設施，拼出你的據點",
+      g1t: "強化海上據點", g1d: "建設大砲等戰鬥設施，提升據點的防衛力，迎擊逼近的海盜。",
+      g2t: "自由配置設施", g2d: "設施的種類與配置會大幅改變戰鬥方式，配合敵人特性構築防線。",
+      g3t: "戰鬥獲得獎勵", g3d: "戰勝海盜後取得獎勵，強化設施，再挑戰更強的敵人。",
+      gameTags: "免下載・基本免費・手機與 PC 瀏覽器皆可玩",
+      gameLink: "前往遊戲介紹頁",
+      simEyebrow: "收益模擬", simTitle: "拖動滑桿，算算你能分到多少",
+      simLead: "設定專屬連結帶來的付費玩家人數，立刻看到預估分潤。",
+      simPayers: "付費玩家人數", simUnit: "人",
+      simYou: "你的預估分潤（30 天）", simTotal: "玩家付費總額", simShare: "你的 50%",
+      simCompare: "不同付費玩家人數的分潤（點選即可套用）",
+      simNote: "預估金額依該市場玩家的平均付費水準，以美元（USD）計。此為模擬，實際分潤依專屬連結帶來的玩家實際付費金額計算。",
+      formEyebrow: "申請", formTitle: "提交申請",
+      formLead: "請填寫以下資料。通過審核後，我們會與你聯絡並提供專屬連結。",
+      fName: "稱呼", phName: "例：小林",
+      fEmail: "電子郵件",
+      fContact: "其他聯絡方式", phContact: "LINE / Discord / Telegram ID",
+      fPlatforms: "SNS 帳號 ID 與粉絲數", fPlatformsHint: "填寫你經營的平台即可，沒有經營的留空。至少填一個，所有平台的粉絲數合計需達 10,000 人以上。",
+      colId: "帳號 ID", colFol: "粉絲數", totalLabel: "粉絲數合計",
+      fWays: "預定的參加方式（可多選）",
+      fStart: "預計活動開始日期", fStartHint: "選擇你預計開始推廣的日期。", errStart: "請選擇預計開始日期", errStartPast: "開始日期不能早於今天",
+      wayStream: "遊戲直播", wayPost: "SNS 貼文", wayOther: "其他方式（請寫明）",
+      wayOtherLabel: "其他方式", wayOtherPh: "請寫明你的參加方式",
+      fSubmit: "確認申請內容",
+      okFollowers: "已達參加門檻", lowFollowers: "目前未達 10,000，暫不符合參加資格",
+      errWays: "請至少選擇一種參加方式", errWayOther: "請寫明其他方式",
+      errRequired: "此欄位為必填", errEmail: "請輸入有效的電子郵件",
+      errPlatNone: "請至少填寫一個平台的帳號 ID 與粉絲數", errPlatPartial: "已填寫的平台，帳號 ID 與粉絲數都需要填",
+      errFollowers: "總粉絲數未達 10,000，暫不符合參加資格",
+      sentTitle: "申請已送出", sentHelp: "謝謝你的申請！我們會盡快審核，通過後以你填寫的電子郵件聯絡你並提供專屬連結。", sending: "送出中…", sendFail: "送出失敗，請檢查網路後再試一次；或複製下方內容，提供給活動窗口。",
+      resTitle: "申請內容已整理完成",
+      resHelp: "請複製以下內容，提供給活動窗口。",
+      resContact: "活動窗口信箱",
+      resCopy: "複製申請內容", resForm: "前往送出表單", resEdit: "返回修改",
+      copied: "已複製", copyFail: "無法自動複製，請手動選取文字後複製",
+      footer: "《浮島奇兵》KOL 合作計畫。遊戲於 G123 平台提供。"
+    },
+    "en": {
+      brandName: "Isle Raider",
+      heroEyebrow: "Creator Partner Program · 30 days",
+      heroTitle: "Bring players aboard. Keep 50%.",
+      heroLead: "Isle Raider is a free-to-play naval strategy game that runs in the browser. Bring in new players with your exclusive link and keep half of what they spend in their first 30 days.",
+      ctaApply: "Apply now", ctaGame: "See the game",
+      statCap: "of each referred player's first-30-day spending",
+      rewardsEyebrow: "Revenue share", rewardsTitle: "Half of what your link brings in is yours",
+      fact1Label: "Campaign period", fact1Val: "30 days",
+      fact2Label: "Revenue share", fact2Val: "50%",
+      fact3Label: "What counts", fact3Val: "Spending by players who join through your link, during their first 30 days",
+      splitYou: "You 50", splitRest: "Remainder 50",
+      splitCap: "Example: a player spends 100 in 30 days, you earn 50.",
+      stepsEyebrow: "How it works", stepsTitle: "Five steps to start earning",
+      s1t: "Apply", s1d: "Fill in the form below with your social accounts and follower count.",
+      s2t: "Get approved", s2d: "Total followers above 10,000 across all your platforms qualifies.",
+      s3t: "Get your link and dashboard", s3d: "You get an exclusive game link and a data dashboard to track how many players you bring in and how your earnings grow.",
+      s4t: "Promote your way", s4d: "Share the link through posts, game streams or any format that suits your audience.",
+      s5t: "Get paid", s5d: "Payment is made on the last business day of the month after the campaign ends.",
+      eligEyebrow: "Eligibility", eligTitle: "Your total followers across all social accounts:",
+      eligCap: "That's all it takes to join",
+      eligNote: "Add up your followers on every platform. No single account has to reach it alone.",
+      eligPlatforms: "Accepted platforms",
+      gameEyebrow: "About the game", gameTitle: "Set sail for the open sea!",
+      gameLead: "A naval strategy sim. Arrange your floating base freely and fend off wave after wave of pirates.",
+      shotAlt: "Stage map", s1t: "Stage map", s1d: "Sail the route and take on pirates stage by stage", s2t: "Boss battles", s2d: "Launch out against sea monsters like the Crimson Squid", s3t: "Upgrade facilities", s3d: "Check HP, attack and traits, then level them up", s4t: "Build your base", s4d: "Pick cannons and facilities to shape your base",
+      g1t: "Fortify your island", g1d: "Build cannons and other defenses to raise your base's strength against incoming pirates.",
+      g2t: "Arrange it your way", g2d: "Facility types and placement change how battles play out. Build the defense that counters each enemy.",
+      g3t: "Win and upgrade", g3d: "Defeat pirates, collect rewards, strengthen your facilities and take on tougher foes.",
+      gameTags: "No download · Free to play · Phone or PC browser",
+      gameLink: "View the game page",
+      simEyebrow: "Earnings simulator", simTitle: "Drag the slider and see what you could earn",
+      simLead: "Set how many paying players your link brings in and see your estimated share right away.",
+      simPayers: "Paying players", simUnit: "players",
+      simYou: "Your estimated share (30 days)", simTotal: "Total player spending", simShare: "Your 50%",
+      simCompare: "Earnings at different player counts (tap to apply)",
+      simNote: "Estimates use the average spending level of paying players in this market, in US dollars (USD). This is a simulation. Actual earnings depend on what players who join through your link really spend.",
+      formEyebrow: "Apply", formTitle: "Apply as a creator",
+      formLead: "Please fill in the details below. After approval we will contact you and send your exclusive link.",
+      fName: "Contact name", phName: "e.g. Alex",
+      fEmail: "Email",
+      fContact: "Other contact", phContact: "LINE / Discord / Telegram ID",
+      fPlatforms: "Account ID and followers per platform", fPlatformsHint: "Fill in the platforms you use and leave the rest blank. At least one is required, and the combined total must reach 10,000.",
+      colId: "Account ID", colFol: "Followers", totalLabel: "Total followers",
+      fWays: "How you plan to take part (multiple choice)",
+      fStart: "Planned start date", fStartHint: "Pick the date you plan to start promoting.", errStart: "Please choose a start date", errStartPast: "The start date cannot be in the past",
+      wayStream: "Game streaming", wayPost: "SNS posts", wayOther: "Other (please specify)",
+      wayOtherLabel: "Other way", wayOtherPh: "Describe how you plan to take part",
+      fSubmit: "Review application",
+      okFollowers: "Meets the follower requirement", lowFollowers: "Below 10,000, so not eligible for this campaign yet",
+      errWays: "Select at least one way to take part", errWayOther: "Please specify the other way",
+      errRequired: "Required", errEmail: "Enter a valid email address",
+      errPlatNone: "Enter an account ID and follower count for at least one platform", errPlatPartial: "For each platform you fill in, enter both the account ID and the follower count",
+      errFollowers: "Below the 10,000 follower requirement for this campaign",
+      sentTitle: "Application sent", sentHelp: "Thank you! We will review it and, once approved, contact you at the email you provided with your exclusive link.", sending: "Sending…", sendFail: "Could not send. Check your connection and try again, or copy the text below and send it to the campaign contact.",
+      resTitle: "Your application is ready",
+      resHelp: "Copy the text below and send it to the campaign contact.",
+      resContact: "Campaign contact email",
+      resCopy: "Copy application", resForm: "Open submission form", resEdit: "Edit answers",
+      copied: "Copied", copyFail: "Could not copy automatically. Select the text and copy it manually.",
+      footer: "Isle Raider creator partner program. The game is available on G123."
+    },
+    "ja": {
+      brandName: "アイルレイダー",
+      heroEyebrow: "KOLパートナープログラム・30日間",
+      heroTitle: "プレイヤーを浮島へ。課金額の50%を、あなたに。",
+      heroLead: "『アイルレイダー』はダウンロード不要・基本無料の海洋ストラテジー。専用リンクから参加した新規プレイヤーの、最初の30日間の課金額の半分があなたの報酬になります。",
+      ctaApply: "今すぐ応募", ctaGame: "ゲームを見る",
+      statCap: "紹介したプレイヤーの最初の30日間の課金額に対する報酬",
+      rewardsEyebrow: "報酬ルール", rewardsTitle: "専用リンク経由の課金の半分を、あなたに",
+      fact1Label: "開催期間", fact1Val: "30日間",
+      fact2Label: "報酬率", fact2Val: "50%",
+      fact3Label: "対象", fact3Val: "専用リンクから参加したプレイヤーの、最初の30日間の課金額",
+      splitYou: "あなた 50", splitRest: "残り 50",
+      splitCap: "例：プレイヤーが30日間で100課金すると、あなたは50を獲得。",
+      stepsEyebrow: "参加の流れ", stepsTitle: "5ステップで報酬獲得",
+      s1t: "応募する", s1d: "下のフォームにSNSアカウントとフォロワー数を入力します。",
+      s2t: "審査に通過", s2d: "全SNSの合計フォロワーが1万人を超えていれば参加できます。",
+      s3t: "専用リンクとデータダッシュボードを受け取る", s3d: "あなた専用のゲームリンクとデータダッシュボードを提供します。紹介したプレイヤー数と報酬額の推移を確認できます。",
+      s4t: "得意な方法で発信", s4d: "SNS投稿やゲーム配信など、得意な方法でリンクを視聴者に届けましょう。",
+      s5t: "報酬を受け取る", s5d: "キャンペーン終了後、翌月の最終営業日に報酬をお支払いします。",
+      eligEyebrow: "参加資格", eligTitle: "全SNSアカウントのフォロワー合計",
+      eligCap: "で参加OK",
+      eligNote: "各SNSのフォロワー数を足した合計でOK。1つのアカウントで達成する必要はありません。",
+      eligPlatforms: "対象プラットフォーム",
+      gameEyebrow: "ゲーム紹介", gameTitle: "大海原へ出航せよ！",
+      gameLead: "海洋ストラテジー。海に浮かぶ拠点を自由に配置し、次々に襲来する海賊を迎え撃ちます。",
+      shotAlt: "ステージマップ", s1t: "ステージマップ", s1d: "航路をたどり、海賊に次々と挑戦", s2t: "巨大モンスター戦", s2d: "紅蓮の大ダコなど海の巨獣に出撃", s3t: "施設を強化", s3d: "HP・攻撃・特性を確認してレベルアップ", s4t: "自由な配置", s4d: "大砲や施設を選んで拠点を組み上げる",
+      g1t: "海上拠点を強化", g1d: "大砲などの戦闘施設を建設して拠点の防衛力を高め、迫る海賊を迎撃します。",
+      g2t: "施設を自由に配置", g2d: "施設の種類と配置で戦い方が大きく変わります。敵に合わせて防衛線を組みましょう。",
+      g3t: "戦って報酬を獲得", g3d: "海賊に勝利して報酬を獲得し、施設を強化してさらに強い敵に挑みます。",
+      gameTags: "ダウンロード不要・基本無料・スマホ／PCブラウザ対応",
+      gameLink: "ゲーム紹介ページへ",
+      simEyebrow: "収益シミュレーション", simTitle: "スライダーを動かして、報酬をシミュレーション",
+      simLead: "専用リンクで集まる課金プレイヤー数を設定すると、想定報酬がすぐわかります。",
+      simPayers: "課金プレイヤー数", simUnit: "人",
+      simYou: "想定報酬（30日間）", simTotal: "プレイヤーの課金総額", simShare: "あなたの50%",
+      simCompare: "課金プレイヤー数ごとの報酬（タップで反映）",
+      simNote: "想定金額はこの市場の課金プレイヤーの平均的な課金水準をもとに、米ドル（USD）で試算しています。これはシミュレーションであり、実際の報酬は専用リンク経由のプレイヤーの実際の課金額に基づきます。",
+      formEyebrow: "応募", formTitle: "応募フォーム",
+      formLead: "以下の内容をご入力ください。審査通過後、ご連絡のうえ専用リンクをお送りします。",
+      fName: "ご担当者名", phName: "例：小林",
+      fEmail: "メールアドレス",
+      fContact: "その他の連絡先", phContact: "LINE / Discord / Telegram ID",
+      fPlatforms: "プラットフォーム別のアカウントIDとフォロワー数", fPlatformsHint: "運営しているプラットフォームのみ入力し、他は空欄のままで構いません。1つ以上の入力が必要で、合計10,000人以上が条件です。",
+      colId: "アカウントID", colFol: "フォロワー数", totalLabel: "フォロワー合計",
+      fWays: "参加予定の方法（複数選択可）",
+      fStart: "開始予定日", fStartHint: "プロモーションを開始する予定日を選んでください。", errStart: "開始予定日を選択してください", errStartPast: "開始予定日は今日以降にしてください",
+      wayStream: "ゲーム配信", wayPost: "SNS投稿", wayOther: "その他（具体的にご記入ください）",
+      wayOtherLabel: "その他の方法", wayOtherPh: "参加方法を具体的にご記入ください",
+      fSubmit: "内容を確認する",
+      okFollowers: "参加条件を満たしています", lowFollowers: "10,000人に届いていないため、現時点では参加できません",
+      errWays: "参加方法を1つ以上選択してください", errWayOther: "その他の方法を具体的にご記入ください",
+      errRequired: "必須項目です", errEmail: "正しいメールアドレスを入力してください",
+      errPlatNone: "少なくとも1つのプラットフォームのアカウントIDとフォロワー数を入力してください", errPlatPartial: "入力したプラットフォームは、アカウントIDとフォロワー数の両方が必要です",
+      errFollowers: "合計フォロワー数が参加条件（10,000人）に届いていません",
+      sentTitle: "応募を送信しました", sentHelp: "ご応募ありがとうございます。審査のうえ、承認された場合はご入力のメールアドレス宛に専用リンクをご連絡します。", sending: "送信中…", sendFail: "送信できませんでした。通信環境をご確認のうえ再度お試しいただくか、下記の内容をコピーして運営窓口へお送りください。",
+      resTitle: "応募内容をまとめました",
+      resHelp: "以下の内容をコピーして、運営窓口へお送りください。",
+      resContact: "運営窓口メール",
+      resCopy: "内容をコピー", resForm: "送信フォームを開く", resEdit: "修正する",
+      copied: "コピーしました", copyFail: "自動でコピーできませんでした。テキストを選択して手動でコピーしてください。",
+      footer: "『アイルレイダー』KOLパートナープログラム。ゲームはG123で配信中です。"
+    },
+    "ko": {
+      brandName: "아일랜드 WAR",
+      heroEyebrow: "크리에이터 파트너 프로그램 · 30일",
+      heroTitle: "플레이어를 섬으로 데려오세요. 결제액의 50%가 당신 몫.",
+      heroLead: "『아일랜드 WAR』는 다운로드가 필요 없는 기본 무료 해양 전략 게임입니다. 전용 링크로 들어온 신규 플레이어가 첫 30일 동안 결제한 금액의 절반이 크리에이터의 보상이 됩니다.",
+      ctaApply: "지금 신청하기", ctaGame: "게임 보기",
+      statCap: "추천한 플레이어의 첫 30일 결제액 기준 보상",
+      rewardsEyebrow: "보상 규칙", rewardsTitle: "전용 링크로 발생한 결제의 절반을 드립니다",
+      fact1Label: "진행 기간", fact1Val: "30일",
+      fact2Label: "보상 비율", fact2Val: "50%",
+      fact3Label: "산정 대상", fact3Val: "전용 링크로 가입한 플레이어의 첫 30일 결제액",
+      splitYou: "크리에이터 50", splitRest: "나머지 50",
+      splitCap: "예시: 플레이어가 30일 동안 100을 결제하면 크리에이터는 50을 받습니다.",
+      stepsEyebrow: "참여 방법", stepsTitle: "5단계로 시작하기",
+      s1t: "신청하기", s1d: "아래 양식에 SNS 계정과 팔로워 수를 입력합니다.",
+      s2t: "심사 통과", s2d: "모든 SNS의 팔로워 합계가 1만 명을 넘으면 참여할 수 있습니다.",
+      s3t: "전용 링크와 데이터 대시보드 받기", s3d: "크리에이터 전용 게임 링크와 데이터 대시보드를 제공해 드립니다. 추천한 플레이어 수와 보상 금액의 성장을 확인할 수 있습니다.",
+      s4t: "나만의 방식으로 홍보", s4d: "SNS 게시물, 게임 방송 등 자신 있는 방식으로 링크를 시청자에게 공유하세요.",
+      s5t: "보상 수령", s5d: "이벤트 종료 후 다음 달 마지막 영업일에 보상을 지급합니다.",
+      eligEyebrow: "참가 자격", eligTitle: "모든 SNS 계정의 팔로워 합계",
+      eligCap: "이면 참여 가능",
+      eligNote: "플랫폼별 팔로워를 모두 더한 수입니다. 한 계정이 혼자 달성할 필요는 없습니다.",
+      eligPlatforms: "대상 플랫폼",
+      gameEyebrow: "게임 소개", gameTitle: "드넓은 바다로 출항하라!",
+      gameLead: "해양 전략 시뮬레이션. 바다 위에 떠 있는 거점을 자유롭게 구성해 연이어 습격하는 해적을 막아냅니다.",
+      shotAlt: "스테이지 맵", s1t: "스테이지 맵", s1d: "항로를 따라 해적에게 차례로 도전", s2t: "거대 몬스터 전투", s2d: "진홍 오징어 같은 바다의 거수에 출격", s3t: "시설 강화", s3d: "체력·공격·특성을 확인하고 레벨업", s4t: "자유로운 배치", s4d: "대포와 시설을 골라 나만의 거점 구성",
+      g1t: "해상 거점 강화", g1d: "대포 등 전투 시설을 지어 거점의 방어력을 높이고 몰려오는 해적에 맞섭니다.",
+      g2t: "자유로운 시설 배치", g2d: "시설의 종류와 배치에 따라 전투 방식이 크게 달라집니다. 적에 맞춰 방어선을 구성하세요.",
+      g3t: "전투로 보상 획득", g3d: "해적을 물리치고 보상을 얻어 시설을 강화한 뒤 더 강한 적에 도전합니다.",
+      gameTags: "다운로드 불필요 · 기본 무료 · 모바일/PC 브라우저",
+      gameLink: "게임 소개 페이지 보기",
+      simEyebrow: "수익 시뮬레이션", simTitle: "슬라이더를 움직여 예상 보상을 확인하세요",
+      simLead: "전용 링크로 모일 결제 플레이어 수를 설정하면 예상 보상이 바로 나옵니다.",
+      simPayers: "결제 플레이어 수", simUnit: "명",
+      simYou: "예상 보상(30일)", simTotal: "플레이어 결제 총액", simShare: "내 몫 50%",
+      simCompare: "결제 플레이어 수별 보상(눌러서 적용)",
+      simNote: "예상 금액은 이 시장 결제 플레이어의 평균 결제 수준을 바탕으로 미국 달러(USD)로 추정했습니다. 시뮬레이션이며 실제 보상은 전용 링크로 들어온 플레이어의 실제 결제액 기준입니다.",
+      formEyebrow: "신청", formTitle: "크리에이터 신청",
+      formLead: "아래 내용을 입력해 주세요. 심사 통과 후 연락드리고 전용 링크를 보내 드립니다.",
+      fName: "담당자 이름", phName: "예: 김민수",
+      fEmail: "이메일",
+      fContact: "기타 연락처", phContact: "LINE / Discord / Telegram ID",
+      fPlatforms: "플랫폼별 계정 ID와 팔로워 수", fPlatformsHint: "운영 중인 플랫폼만 입력하고 나머지는 비워 두세요. 하나 이상 필수이며, 합계가 10,000명 이상이어야 합니다.",
+      colId: "계정 ID", colFol: "팔로워 수", totalLabel: "팔로워 합계",
+      fWays: "참여 예정 방식(복수 선택 가능)",
+      fStart: "시작 예정일", fStartHint: "홍보를 시작할 예정일을 선택하세요.", errStart: "시작 예정일을 선택하세요", errStartPast: "시작 예정일은 오늘 이후여야 합니다",
+      wayStream: "게임 방송", wayPost: "SNS 게시물", wayOther: "기타(구체적으로 적어 주세요)",
+      wayOtherLabel: "기타 방식", wayOtherPh: "참여 방식을 구체적으로 적어 주세요",
+      fSubmit: "신청 내용 확인",
+      okFollowers: "참가 조건을 충족합니다", lowFollowers: "10,000명에 미치지 못해 현재는 참가할 수 없습니다",
+      errWays: "참여 방식을 하나 이상 선택하세요", errWayOther: "기타 방식을 구체적으로 적어 주세요",
+      errRequired: "필수 항목입니다", errEmail: "올바른 이메일을 입력하세요",
+      errPlatNone: "최소 한 개 플랫폼의 계정 ID와 팔로워 수를 입력하세요", errPlatPartial: "입력한 플랫폼은 계정 ID와 팔로워 수를 모두 입력해야 합니다",
+      errFollowers: "팔로워 합계가 참가 조건(10,000명)에 미치지 못합니다",
+      sentTitle: "신청이 접수되었습니다", sentHelp: "신청해 주셔서 감사합니다. 심사 후 승인되면 입력하신 이메일로 전용 링크를 안내해 드립니다.", sending: "전송 중…", sendFail: "전송하지 못했습니다. 네트워크를 확인하고 다시 시도하시거나, 아래 내용을 복사해 운영 담당자에게 보내 주세요.",
+      resTitle: "신청 내용이 준비되었습니다",
+      resHelp: "아래 내용을 복사해 운영 담당자에게 보내 주세요.",
+      resContact: "운영 담당자 이메일",
+      resCopy: "내용 복사", resForm: "제출 양식 열기", resEdit: "수정하기",
+      copied: "복사되었습니다", copyFail: "자동 복사에 실패했습니다. 텍스트를 선택해 직접 복사해 주세요.",
+      footer: "『아일랜드 WAR』 크리에이터 파트너 프로그램. 게임은 G123에서 서비스됩니다."
+    }
+  };
+
+  var $ = function (s) { return document.querySelector(s); };
+  var root = document.documentElement;
+  var lang = pickLang();
+  var errors = {};
+  var statusKey = "";
+  var copyKey = "";
+
+  function pickLang() {
+    try { var s = localStorage.getItem("ir-lang"); if (s && T[s]) return s; } catch (e) {}
+    var n = (navigator.language || "").toLowerCase();
+    if (n.indexOf("ja") === 0) return "ja";
+    if (n.indexOf("ko") === 0) return "ko";
+    if (n.indexOf("en") === 0) return "en";
+    return "zh-TW";
+  }
+
+  var fields = {
+    name: $("#f-name"), email: $("#f-email"), start: $("#f-start")
+  };
+  var PLATS = [["youtube", "YouTube"], ["twitch", "Twitch"], ["instagram", "Instagram"], ["tiktok", "TikTok"], ["x", "X"]];
+  var plat = {};
+  PLATS.forEach(function (p) { plat[p[0]] = { id: $("#f-id-" + p[0]), fol: $("#f-fol-" + p[0]) }; });
+  var badInputs = {};
+  var focusEl = null;
+
+  function apply() {
+    var d = T[lang];
+    root.setAttribute("lang", lang === "zh-TW" ? "zh-Hant" : lang);
+    root.setAttribute("data-lang", lang);
+    document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = d[el.getAttribute("data-i18n")] || ""; });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function (el) { el.setAttribute("placeholder", d[el.getAttribute("data-i18n-ph")] || ""); });
+    document.querySelectorAll("[data-lang]").forEach(function (b) {
+      if (b.tagName === "BUTTON") b.setAttribute("aria-pressed", b.getAttribute("data-lang") === lang ? "true" : "false");
+    });
+    $("#hero-logo").setAttribute("src", "assets/logo-" + lang + ".webp");
+    $("#hero-logo").setAttribute("alt", d.brandName);
+    document.querySelectorAll("[data-game-link]").forEach(function (a) { a.setAttribute("href", "https://g123.jp/game/island?lang=" + lang); });
+    PLATS.forEach(function (p) {
+      plat[p[0]].id.setAttribute("aria-label", p[1] + " " + d.colId);
+      plat[p[0]].fol.setAttribute("aria-label", p[1] + " " + d.colFol);
+    });
+    renderErrors();
+    renderStatus();
+    renderSim();
+    $("#copy-status").textContent = copyKey ? d[copyKey] : "";
+  }
+
+  document.querySelectorAll(".lang button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      lang = b.getAttribute("data-lang");
+      try { localStorage.setItem("ir-lang", lang); } catch (e) {}
+      apply();
+    });
+  });
+
+  $("#cta-apply").addEventListener("click", function (e) {
+    e.preventDefault();
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $("#apply").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  });
+
+  function digits(v) { return (v || "").replace(/[^\d]/g, ""); }
+  function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+  function renderStatus() {
+    var el = $("#followers-status");
+    el.className = "status" + (statusKey === "okFollowers" ? " ok" : statusKey === "lowFollowers" ? " low" : "");
+    el.textContent = statusKey ? T[lang][statusKey] : "";
+  }
+  function total() {
+    var t = 0;
+    PLATS.forEach(function (p) { var s = digits(plat[p[0]].fol.value); if (s) t += parseInt(s, 10); });
+    return t;
+  }
+  function updateTotal() {
+    var t = total();
+    $("#total-val").textContent = fmt(t);
+    statusKey = t ? (t >= MIN_FOLLOWERS ? "okFollowers" : "lowFollowers") : "";
+    renderStatus();
+  }
+  PLATS.forEach(function (p) {
+    var f = plat[p[0]].fol;
+    f.addEventListener("input", updateTotal);
+    f.addEventListener("blur", function () {
+      var s = digits(f.value);
+      if (s) f.value = fmt(parseInt(s, 10));
+      updateTotal();
+    });
+  });
+
+  function renderErrors() {
+    $("#w-other-text").setAttribute("aria-invalid", errors.ways === "errWayOther" ? "true" : "false");
+    ["name", "email", "plats", "ways", "start"].forEach(function (k) {
+      var p = $("#err-" + k), key = errors[k];
+      p.textContent = key ? T[lang][key] : "";
+      p.hidden = !key;
+      if (fields[k]) fields[k].setAttribute("aria-invalid", key ? "true" : "false");
+    });
+    PLATS.forEach(function (p) {
+      ["id", "fol"].forEach(function (t) {
+        plat[p[0]][t].setAttribute("aria-invalid", badInputs[p[0] + t] ? "true" : "false");
+      });
+    });
+  }
+
+  function validate() {
+    errors = {}; badInputs = {}; focusEl = null;
+    if (!fields.name.value.trim()) { errors.name = "errRequired"; focusEl = focusEl || fields.name; }
+    var em = fields.email.value.trim();
+    if (!em) { errors.email = "errRequired"; focusEl = focusEl || fields.email; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { errors.email = "errEmail"; focusEl = focusEl || fields.email; }
+    var filled = 0, partial = false;
+    PLATS.forEach(function (p) {
+      var k = p[0], idv = plat[k].id.value.trim(), fol = digits(plat[k].fol.value);
+      if (!idv && !fol) return;
+      if (idv && fol) { filled++; return; }
+      partial = true;
+      var miss = idv ? "fol" : "id";
+      badInputs[k + miss] = true;
+      focusEl = focusEl || plat[k][miss];
+    });
+    if (partial) errors.plats = "errPlatPartial";
+    else if (!filled) { errors.plats = "errPlatNone"; focusEl = focusEl || plat.youtube.id; }
+    else if (total() < MIN_FOLLOWERS) {
+      errors.plats = "errFollowers";
+      var f1 = PLATS.filter(function (p) { return digits(plat[p[0]].fol.value); })[0];
+      focusEl = focusEl || plat[f1[0]].fol;
+    }
+    var anyWay = $("#w-stream").checked || $("#w-post").checked || $("#w-other").checked;
+    if (!anyWay) { errors.ways = "errWays"; focusEl = focusEl || $("#w-stream"); }
+    else if ($("#w-other").checked && !$("#w-other-text").value.trim()) { errors.ways = "errWayOther"; focusEl = focusEl || $("#w-other-text"); }
+    var sd = $("#f-start").value;
+    if (!sd) { errors.start = "errStart"; focusEl = focusEl || $("#f-start"); }
+    else if (sd < todayStr()) { errors.start = "errStartPast"; focusEl = focusEl || $("#f-start"); }
+    return Object.keys(errors).length === 0;
+  }
+
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  $("#f-start").min = todayStr();
+  $("#f-start").addEventListener("input", function () { if (errors.start) { delete errors.start; renderErrors(); } });
+
+  function buildSummary() {
+    var ways = [];
+    if ($("#w-stream").checked) ways.push(WAY_EN.stream);
+    if ($("#w-post").checked) ways.push(WAY_EN.post);
+    if ($("#w-other").checked) ways.push("Other: " + $("#w-other-text").value.trim());
+    var out = [
+      "[Isle Raider KOL Application]",
+      "Name: " + fields.name.value.trim(),
+      "Email: " + fields.email.value.trim(),
+      "Participation: " + ways.join(", "),
+      "Planned start date: " + $("#f-start").value,
+      "Total followers: " + fmt(total()),
+      "Page language: " + lang,
+      "Accounts:"
+    ];
+    PLATS.forEach(function (p) {
+      var idv = plat[p[0]].id.value.trim(), fol = digits(plat[p[0]].fol.value);
+      if (idv && fol) out.push("- " + p[1] + ": " + idv + " (" + fmt(parseInt(fol, 10)) + ")");
+    });
+    return out.join("\n");
+  }
+
+  // Earnings simulator: paying players x ARPPU of this language's market x revenue share
+  var ARPPU = { "zh-TW": 12, ko: 13, ja: 15, en: 7 };  // USD per paying player, first 30 days
+  var SHARE = 0.5;
+  var SIM_MAX = 1000;
+  function usd(n) { return "$" + fmt(n); }
+  function renderSim() {
+    var slider = $("#sim-payers");
+    var n = parseInt(slider.value, 10) || 0;
+    var a = ARPPU[lang];
+    var total = n * a;
+    var earn = Math.round(total * SHARE);
+    var label = fmt(n) + " " + T[lang].simUnit;
+    $("#sim-payers-out").textContent = label;
+    slider.setAttribute("aria-valuetext", label);
+    $("#sim-earn").textContent = usd(earn);
+    $("#sim-total").textContent = usd(total);
+    $("#sim-share").textContent = usd(earn);
+    document.querySelectorAll(".bar").forEach(function (b) {
+      var lv = parseInt(b.getAttribute("data-n"), 10);
+      var v = Math.round(lv * a * SHARE);
+      b.querySelector(".bar-name").textContent = fmt(lv) + " " + T[lang].simUnit;
+      b.querySelector(".bar-fill").style.width = Math.max(3, v / (SIM_MAX * a * SHARE) * 100) + "%";
+      b.querySelector(".bar-val").textContent = usd(v);
+      b.classList.toggle("on", lv === n);
+    });
+  }
+  $("#sim-payers").addEventListener("input", renderSim);
+  document.querySelectorAll(".bar").forEach(function (b) {
+    b.addEventListener("click", function () { $("#sim-payers").value = b.getAttribute("data-n"); renderSim(); });
+  });
+
+  $("#w-other").addEventListener("change", function () {
+    $("#way-other-wrap").hidden = !this.checked;
+    if (this.checked) $("#w-other-text").focus();
+  });
+
+  ["#w-stream", "#w-post", "#w-other", "#w-other-text"].forEach(function (sel) {
+    $(sel).addEventListener(sel === "#w-other-text" ? "input" : "change", function () {
+      if (errors.ways) { delete errors.ways; renderErrors(); }
+    });
+  });
+
+  $("#apply-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var ok = validate();
+    renderErrors();
+    if (!ok) {
+      if (focusEl) focusEl.focus();
+      return;
+    }
+    if ($("#f-hp").value) return;
+    var summaryText = buildSummary();
+    if (SUBMIT_URL) { send(summaryText); return; }
+    showManual(summaryText, false);
+  });
+
+  function showManual(summaryText, failed) {
+    $("#summary").textContent = summaryText;
+    $("#send-err").hidden = !failed;
+    $("#res-sent").hidden = true;
+    if (CONTACT_EMAIL) { $("#res-contact-val").textContent = CONTACT_EMAIL; $("#res-contact").hidden = false; }
+    if (EXTERNAL_FORM_URL) { $("#res-form").setAttribute("href", EXTERNAL_FORM_URL); $("#res-form").hidden = false; }
+    copyKey = ""; $("#copy-status").textContent = "";
+    $("#apply-form").hidden = true;
+    $("#result").hidden = false;
+    $("#result").scrollIntoView({ block: "nearest" });
+  }
+
+  var sending = false;
+  function send(summaryText) {
+    if (sending) return;
+    sending = true;
+    var btn = $("#submit-btn");
+    btn.disabled = true; btn.textContent = T[lang].sending;
+    function done(okSent) {
+      sending = false; btn.disabled = false; btn.textContent = T[lang].fSubmit;
+      if (okSent) {
+        $("#apply-form").hidden = true; $("#result").hidden = true; $("#res-sent").hidden = false;
+        $("#res-sent").scrollIntoView({ block: "nearest" });
+      } else { showManual(summaryText, true); }
+    }
+    var body = new URLSearchParams();
+    body.set("name", fields.name.value.trim());
+    body.set("email", fields.email.value.trim());
+    body.set("start", $("#f-start").value);
+    body.set("total", String(total()));
+    body.set("lang", lang);
+    body.set("summary", summaryText);
+    body.set("hp", $("#f-hp").value);
+    var ctl = ("AbortController" in window) ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
+    fetch(SUBMIT_URL, { method: "POST", mode: "no-cors", body: body, signal: ctl ? ctl.signal : undefined })
+      .then(function () { clearTimeout(timer); done(true); },
+            function () { clearTimeout(timer); done(false); });
+  }
+
+  $("#edit-btn").addEventListener("click", function () {
+    $("#result").hidden = true;
+    $("#apply-form").hidden = false;
+    fields.name.focus();
+  });
+
+  $("#copy-btn").addEventListener("click", function () {
+    var text = $("#summary").textContent;
+    function manual() {
+      var r = document.createRange(); r.selectNodeContents($("#summary"));
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      copyKey = "copyFail"; $("#copy-status").textContent = T[lang].copyFail;
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        copyKey = "copied"; $("#copy-status").textContent = T[lang].copied;
+      }, manual);
+    } catch (e) { manual(); }
+  });
+
+  apply();
+})();
+</script>
